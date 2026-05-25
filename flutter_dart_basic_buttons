@@ -1,5 +1,7 @@
 // Basic Claude prompt
 // "Create a Flutter application that implements a bottom navigation bar with three tabs: Home, Profile, and Settings."
+// Cross-Platform Mobile Development (Flutter, React Native)
+
 
 import 'package:flutter/material.dart';
 
