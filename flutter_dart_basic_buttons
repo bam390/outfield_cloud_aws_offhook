@@ -1,0 +1,276 @@
+// Basic Claude prompt
+// "Create a Flutter application that implements a bottom navigation bar with three tabs: Home, Profile, and Settings."
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Bottom Navigation Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        useMaterial3: true,
+      ),
+      home: const MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _selectedIndex = 0;
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    HomeTab(),
+    ProfileTab(),
+    SettingsTab(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Navigation Demo'),
+        elevation: 0,
+      ),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+}
+
+class HomeTab extends StatelessWidget {
+  const HomeTab({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Welcome to Home',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 16),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Home Content',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'This is the home tab content. You can add any widgets here.',
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileTab extends StatelessWidget {
+  const ProfileTab({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.blue,
+                    child: Text(
+                      'U',
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'User Profile',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildProfileField('Name', 'John Doe'),
+                    const Divider(),
+                    _buildProfileField('Email', 'john@example.com'),
+                    const Divider(),
+                    _buildProfileField('Phone', '+1 (555) 123-4567'),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileField(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+              color: Colors.grey,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(value),
+        ],
+      ),
+    );
+  }
+}
+
+class SettingsTab extends StatefulWidget {
+  const SettingsTab({Key? key}) : super(key: key);
+
+  @override
+  State<SettingsTab> createState() => _SettingsTabState();
+}
+
+class _SettingsTabState extends State<SettingsTab> {
+  bool _notificationsEnabled = true;
+  bool _darkModeEnabled = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Settings',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 16),
+            Card(
+              child: Column(
+                children: [
+                  ListTile(
+                    title: const Text('Enable Notifications'),
+                    trailing: Switch(
+                      value: _notificationsEnabled,
+                      onChanged: (value) {
+                        setState(() {
+                          _notificationsEnabled = value;
+                        });
+                      },
+                    ),
+                  ),
+                  const Divider(height: 0),
+                  ListTile(
+                    title: const Text('Dark Mode'),
+                    trailing: Switch(
+                      value: _darkModeEnabled,
+                      onChanged: (value) {
+                        setState(() {
+                          _darkModeEnabled = value;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'About',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    const Text('App Version: 1.0.0'),
+                    const SizedBox(height: 8),
+                    const Text('Build: 1'),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
